@@ -1,0 +1,11 @@
+IDM_NodeA = "10.120.0.11"
+IDM_NodeB = "10.120.0.5"
+App01_NodeA = "10.120.0.6"
+App01_NodeB = "10.120.0.2"
+App02_NodeA = "10.120.0.9"
+App02_NodeB = "10.120.0.8"
+App03_NodeA = "10.120.0.10"
+App03_NodeB = "10.120.0.4"
+nfs='10.120.0.7'
+chef_path="/home/cloud-user/Primavera_Orchestration_toolkit_17.11.0.0"
+m_list = [IDM_NodeA,IDM_NodeB,App01_NodeA,App01_NodeB,App02_NodeA,App02_NodeB,App03_NodeA,App03_NodeB]
