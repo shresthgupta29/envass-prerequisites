@@ -3,6 +3,12 @@ import subprocess
 from subprocess import Popen, PIPE
 from machines import *
 
+app=input("Select app :\n\t\t0: For IDM\n\t\t1: For App01\n\t\t2: For app02\n\t\t3: For app03\n")
+if app not in [0,1,2,3]:
+	print ("Wrong input....Exinitg")
+	exit()
+
+
 print (m_list)
 # if os.path.isfile('/etc/exports'):
 # 	print("Editing exports file")
@@ -20,13 +26,19 @@ print (m_list)
 # except OSError as e:
 # 	print("/u02 not mounted properly")
 # 	exit()
-
 os.chdir(chef_path+'/ChefOrchestration/testing')
-try:
-	subprocess.call('./pdit_clean',shell=True)
-except OSError as e:
-	print(e)
-	exit()
+
+clean=raw_input("Want to run pdit_clean ? (y/n)\n")
+print clean
+if clean=='y':
+	try:
+		print("Running pdit_clean")
+		subprocess.call('./pdit_clean',shell=True)
+	except OSError as e:
+		print(e)
+		exit()
+else:
+	print("Not running pdit_clean")
 
 if os.path.isfile('/etc/fstab'):
 	print("Editing exports file")
@@ -215,22 +227,60 @@ except FileNotFoundError as e:
 	print (e)
 	exit()
 
-app=input("Select app :\n\t\t0: For IDM\n\t\t1: For App01\n\t\t2: For app02\n\t\t3: For app03\n")
-print(app)
+#######################################################################################################
 
-if app=='0':
-	print("Executing pre-IDM.sh file")
-	subprocess.call("bash pre-IDM.sh",shell=True)
-elif app=='1':
-	print("Executing pre-App01.sh file")
-	subprocess.call("bash pre-App01.sh",shell=True)
-elif app=='2':
-	print("Executing pre-App02.sh file")
-	subprocess.call("bash pre-App02.sh",shell=True)
-elif app=='3':
-	print("Executing pre-App03.sh file")
-	subprocess.call("bash pre-App03.sh",shell=True)
-else:
-	print("Wrong input")
+proc = Popen("cut -d: -f1 /etc/passwd | grep 'pgbu_apps'",shell=True,stdout=PIPE)
+res = proc.communicate()[0].split('\n')
+print res
+if not (res[0]=="pgbu_apps"):
+	subprocess.call('mkdir /u01',shell=True)
+	subprocess.call('chmod 777 /u01',shell=True)
+	subprocess.call('cd /usr/sbin',shell=True)
+	subprocess.call('sudo ./useradd -g oinstall -G dba -d /u01/pgbu_apps pgbu_apps',shell=True)
+	subprocess.call('sudo passwd pgbu_apps',shell=True)
+
+try:
+	subprocess.call('rm -rf /u01/oracle/oraInventory_bak',shell=True)
+	subprocess.call('mkdir /u01/oracle/oraInventory_bak',shell=True)
+	subprocess.call('cp -r /u01/oracle/oraInventory/* /u01/oracle/oraInventory_bak',shell=True)
+	subprocess.call('/usr/sbin/usermod -a -G oinstall pgbu_apps',shell=True)
+	subprocess.call('rm -rf /u01/oracle/oraInventory/locks',shell=True)
+	subprocess.call('mkdir -p /u01/oracle/oraInventory/locks',shell=True)
+	subprocess.call('chown -R pgbu_apps:oinstall /u01/oracle',shell=True)
+	subprocess.call('chmod -R 777 /u01/oracle',shell=True)
+	subprocess.call('chown -R pgbu_apps:pgbu_apps /u02/app_files',shell=True)
+	subprocess.call('rmdir /u01/app/stage',shell=True)
+	subprocess.call('mkdir -p /u01/app/stage',shell=True)
+	subprocess.call('chown -R pgbu_apps:pgbu_apps /u01/app',shell=True)
+except OSError as e:
+	print(e)
+
+os.chdir('/etc/security/')
+flag=0
+try:
+	with open('limits.conf','r') as f:
+		lines=f.readlines()
+except FileNotFoundError as e:
+	print (e)
 	exit()
+for index, line in enumerate(lines):
+    if line.startswith("pgbu_apps") and line.endswith('15349\n'):
+    	print line
+        flag=1
+
+if (flag==0):
+	print ("Editing limits.conf file")
+	with open("limits.conf", "a") as myfile:
+		myfile.write("pgbu_apps   soft   nproc   15349\npgbu_apps   hard   nproc   16384\npgbu_apps   soft   nofile   32768\npgbu_apps   hard   nofile   65536\npgbu_apps   soft   core   2097152\npgbu_apps   hard   core   unlimited\n")
+  
+if app==0:
+	subprocess.call('yum install expect*',shell=True)
+	print('Done for IDM')
+elif app==1:
+	subprocess.call('yum install expect*',shell=True)
+	print("Done for App01")
+elif app==2:
+	 print("Done for App02")
+elif app==3:
+	print("Edit /etc/hosts before proceeding further")
 
