@@ -39,10 +39,10 @@ while True:
 	print (line)
 	if "PORT" in line:
 		break;
-x= len(line)
-port = line[x-7:-3]
+#x= len(line)
+#port = line[x-7:-3]
 tnsnames.close()
-print ("Database setup done......{}.....at port{}".format(cdb,port))
+#print ("Database setup done......{}.....at port{}".format(cdb,port))
 
 conn = 'sys/'+admin_pass+'@'+cdb+' as sysdba'
 session = subprocess.Popen([oracle_home+'/bin/sqlplus', '-S', conn], stdin=PIPE, stdout=PIPE, stderr=PIPE)
