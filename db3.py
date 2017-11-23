@@ -102,11 +102,11 @@ session.stdin.write('startup;');
 res = session.communicate()
 print res[0]
 
-# conn = 'sys/'+admin_pass+'@'+cdb+' as sysdba'
-# session = subprocess.Popen([oracle_home+'/bin/sqlplus', '-S', conn], stdin=PIPE, stdout=PIPE, stderr=PIPE)
-# session.stdin.write('GRANT CREATE DATABASE LINK TO RCU_INSTALL;')
-# (stdout,stderr)=session.communicate()
-# print stdout
+#conn = 'sys/'+admin_pass+'@'+cdb+' as sysdba'
+#session = subprocess.Popen([oracle_home+'/bin/sqlplus', '-S', conn], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+#session.stdin.write('grant create database link to sys_install;')
+#(stdout,stderr)=session.communicate()
+#print stdout
 
 conn = 'sys/'+admin_pass+'@'+cdb+' as sysdba'
 session = subprocess.Popen([oracle_home+'/bin/sqlplus', '-S', conn], stdin=PIPE, stdout=PIPE, stderr=PIPE)

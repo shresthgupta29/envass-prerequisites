@@ -26,19 +26,19 @@ print (m_list)
 # except OSError as e:
 # 	print("/u02 not mounted properly")
 # 	exit()
-os.chdir(chef_path+'/ChefOrchestration/testing')
+#os.chdir(chef_path+'/ChefOrchestration/testing')
 
-clean=raw_input("Want to run pdit_clean ? (y/n)\n")
+clean=raw_input("Did you pdit_clean ? (y/n)\n")
 print clean
 if clean=='y':
 	try:
-		print("Running pdit_clean")
-		subprocess.call('./pdit_clean',shell=True)
+		print("You can proceed further")
+		#subprocess.call('./pdit_clean',shell=True)
 	except OSError as e:
 		print(e)
 		exit()
 else:
-	print("Not running pdit_clean")
+	print("Run pdit_clean first")
 
 if os.path.isfile('/etc/fstab'):
 	print("Editing exports file")

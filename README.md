@@ -7,7 +7,8 @@ Pre-requisites : ChefToolkit
 3. cd pre_envass
 4. Edit the machines details in the 'machines.py' files
 5. Enter chef_path in the "machines.py" till the folder containing 'ChefOrchestration' folder.
-6. execute python pre.py 
+6. Run ./pdit_clean file first
+7. execute python pre.py 
 
 
 Note: config.py; db1.py; db2.py; db3.py use only at db machine
