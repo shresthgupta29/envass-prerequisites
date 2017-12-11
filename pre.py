@@ -3,13 +3,42 @@ import subprocess
 from subprocess import Popen, PIPE
 from machines import *
 
-app=input("Select app :\n\t\t0: For IDM\n\t\t1: For App01\n\t\t2: For app02\n\t\t3: For app03\n")
+
+print ("\n\nWarning : Please make sure that /u02/app_files is mounted properly before running the script!\n\n")
+app=input("Select app :\n\t\t0: For IDM(A/B)\n\t\t1: For App01(A/B)\n\t\t2: For app02(A/B)\n\t\t3: For app03(A/B)\n")
 if app not in [0,1,2,3]:
 	print ("Wrong input....Exinitg")
 	exit()
-
-
 print (m_list)
+os.chdir('/etc')
+if os.path.isfile('/etc/resolv.conf'):
+	print("Editing /etc/resolv.conf")
+else:
+	print("/etc/resolv.conf file missing...Exiting")
+	exit()
+with open('/etc/resolv.conf','r') as myfile:
+	lines=myfile.read()
+
+print lines
+if(lines.find('nameserver 10.75.137.245')+1):
+	print("Pass 1")
+else:
+	with open('/etc/resolv.conf','a') as myfile:
+		print("Editing resolv.conf file")
+		myfile.write('nameserver 10.75.137.245\n')
+
+if(lines.find('nameserver 10.75.137.246')+1):
+	print("Pass 2")
+else:
+	with open('/etc/resolv.conf','a') as myfile:
+		print("Editing resolv.conf file")
+		myfile.write('nameserver 10.75.137.246')
+
+try:
+	subprocess.call('service iptables stop',shell=True)
+except OSError as e:
+	print (e)
+	exit()
 # if os.path.isfile('/etc/exports'):
 # 	print("Editing exports file")
 # else:
@@ -26,20 +55,7 @@ print (m_list)
 # except OSError as e:
 # 	print("/u02 not mounted properly")
 # 	exit()
-#os.chdir(chef_path+'/ChefOrchestration/testing')
-
-clean=raw_input("Did you pdit_clean ? (y/n)\n")
-print clean
-if clean=='y':
-	try:
-		print("You can proceed further")
-		#subprocess.call('./pdit_clean',shell=True)
-	except OSError as e:
-		print(e)
-		exit()
-else:
-	print("Run pdit_clean first")
-
+os.chdir(chef_path+'/ChefOrchestration/testing')
 if os.path.isfile('/etc/fstab'):
 	print("Editing exports file")
 else:
@@ -48,7 +64,7 @@ else:
 with open('/etc/fstab','r') as myfile:
 	lines=myfile.read()
 
-if(lines.find(nfs+':/u02    /u02   nfs    defaults   0   0')):
+if(lines.find(nfs+':/u02    /u02   nfs    defaults   0   0')+1):
 	print("fstab already edited")
 else:
 	with open('/etc/fstab','a') as myfile:
@@ -63,21 +79,6 @@ except OSError as e:
 	print (e)
 	exit()
 
-
-try:
-	proc = Popen(['showmount', '-e',nfs], stdout=PIPE)
-	machine_list = proc.communicate()[0].split()[5].split(',')
-	#nfs_list= subprocess.check_output('showmount -e '+nfs,shell=True,stderr=subprocess.STDOUT)
-	#print (nfs_list)
-except OSError as e:
-	print (e)
-	exit()
-for i in m_list:
-	if i not in machine_list:
-		print (i+" not mounted...exiting")
-		exit()
-
-os.chdir('/tmp')
 try:
 	subprocess.call('yum -y install telnet nfs-utils nfs-utils-lib bind-utils man wget tigervnc-server xorg-x11-xauth xterm unzip',shell=True)
 	subprocess.call('yum groupinstall -y basic-desktop',shell=True)
