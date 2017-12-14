@@ -89,6 +89,7 @@ try:
 	subprocess.call('yum -y install $(cat /tmp/packages_new)',shell=True)
 	subprocess.call('yum install -y vim vnc screen libaio zip xauth compat-libcap1-1.10  compat-libstdc++-33 libstdc++-devel gcc-c++ ksh libaio-devel',shell=True)
 	subprocess.call('yum install bind-utils -y',shell=True)
+	subprocess.call('yum -y install sysstat*',shell=True)
 except OSError as e:
 	print (e)
 	exit()
