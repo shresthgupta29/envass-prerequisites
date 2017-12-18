@@ -36,12 +36,10 @@ Note : if .u02/ is not mounted properly then refer to  https://confluence.oracle
 Pre-Requisites for App01,App02,IDM,App03
 
 Once /u02 is mounted copy the scripts to /u02/app_files
-Copy the chef toolkit to the /u02/app_files
-Edit the machines.py file 
-Update the zip_path variable with the correct path for the toolkit zip file.
-Edit the chef_path if unziping the toolkit manually. 
-      4. A chef folder will be create with the name "chefdd-mm"  Example: /chef18-12
-
-      5. Edit the runlist as per the manuals.
-
-      6. Start chef
+1.Copy the chef toolkit to the /u02/app_files
+2.Edit the machines.py file 
+3.Update the zip_path variable with the correct path for the toolkit zip file.
+       Edit the chef_path if unziping the toolkit manually. 
+4. A chef folder will be create with the name "chefdd-mm"  Example: /chef18-12
+5. Edit the runlist as per the manuals.
+6. Start chef
