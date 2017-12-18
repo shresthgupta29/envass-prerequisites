@@ -8,6 +8,7 @@ Setup DB Machine
        -→ mv envass-prerequisites-master/ /home/gbuora/
 
        -→ chown -R gbuora:oinstall /home/gbuora/envass-prerequisites-master/
+4. Make sure /u01 and the scripts have the same user group, if not change the user group for /u01 and scripts.
 
 3. Edit config.py file with the correct details 
 
