@@ -299,7 +299,7 @@ elif app==1:
         subprocess.call('yum -y install expect*',shell=True)
         print("Done for App01")
 elif app==2:
-		subprocess.call('yum -y install expect*',shell=True)
+	subprocess.call('yum -y install expect*',shell=True)
         print("Done for App02")
 elif app==3:
         print("Done for App03")    
