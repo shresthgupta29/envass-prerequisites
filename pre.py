@@ -294,15 +294,15 @@ if (flag==0):
   
 if app==0:
         subprocess.call('yum -y install expect*',shell=True)
-
         print('Done for IDM')
 elif app==1:
         subprocess.call('yum -y install expect*',shell=True)
         print("Done for App01")
 elif app==2:
-         print("Done for App02")
+	subprocess.call('yum -y install expect*',shell=True)
+        print("Done for App02")
 elif app==3:
-         print("Done for App03")    
+        print("Done for App03")    
 
 print("\n\nWARNING :: Check /etc/hosts before proceeding further\nShould contain\n**************************************************************\n127.0.0.1    localhost  localhost.localdomain  localhost6  localhost6.localdomain6\n::1         localhost localhost.localdomain localhost6 localhost6.localdomain6\n<IP Address of node A> <Node A FQDN>\n<IP Address of node B> <Node B FQDN>\n*************************************************************\n")
 
