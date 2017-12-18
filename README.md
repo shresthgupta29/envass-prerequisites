@@ -7,7 +7,7 @@ Setup DB Machine
 
        -→ mv envass-prerequisites-master/ /home/gbuora/
 
-       -→ chown -R gbuora:dba /home/gbuora/envass-prerequisites-master/
+       -→ chown -R gbuora:oinstall /home/gbuora/envass-prerequisites-master/
 
 3. Edit config.py file with the correct details 
 
