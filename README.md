@@ -1,21 +1,47 @@
 # envass-prerequisites
-Scripts to run pre-requisites in envass environment for new installation using Chef
+Setup DB Machine
 
-Pre-requisites : ChefToolkit
-1. Copy the folde 'pre_envass.zip' to machine
-2. Extract the zip file
-3. cd pre_envass
-4. Edit the machines details in the 'machines.py' files
-5. Enter chef_path in the "machines.py" till the folder containing 'ChefOrchestration' folder.
-6. Run ./pdit_clean file first
-7. execute python pre.py 
+1.Download the scripts into the db machine.
 
+2. If using cloud-user change the permissions once done copying 
 
-Note: config.py; db1.py; db2.py; db3.py use only at db machine
-1. Edit config.py file
-2. Execute db1.py as gbuora
-3. Execute db2.py as root
-4. Exeute db3.py as gbuora  - type 'y' when prompted
-  
+       -→ mv envass-prerequisites-master/ /home/gbuora/
 
-Note: If db client is already installed then directly run db3.py - type 'n' when prompted
+       -→ chown -R gbuora:dba /home/gbuora/envass-prerequisites-master/
+
+3. Edit config.py file with the correct details 
+
+4. Run "python db1.py" if fresh db install with gbuora
+
+5. Run "python db2.py" with root
+
+6. Run "python db3.py" with gbuora
+
+Note: if db server is already installed skip step 4 and step 5. 
+
+Note: For manual installing db refer to https://confluence.oraclecorp.com/confluence/display/PCE/Setup+Oracle+12c+Database and once done with the installtion edit the config.py file and run "python db_pre.py".
+
+ 
+
+Setup NFS
+
+Download the scripts into db machine.
+Edit machines.py with the machines details.
+run "python nfs.py"
+Run the command prompted at the end of the script in all other machines (App01,App02.App03)
+Check if /u02 is mounted properly.
+Note : if .u02/ is not mounted properly then refer to  https://confluence.oraclecorp.com/confluence/display/PCE/Provision+OCI+Classic%2C+OPC+P6+SE  (Post Implementation section )
+ 
+
+Pre-Requisites for App01,App02,IDM,App03
+
+Once /u02 is mounted copy the scripts to /u02/app_files
+Copy the chef toolkit to the /u02/app_files
+Edit the machines.py file 
+Update the zip_path variable with the correct path for the toolkit zip file.
+Edit the chef_path if unziping the toolkit manually. 
+      4. A chef folder will be create with the name "chefdd-mm"  Example: /chef18-12
+
+      5. Edit the runlist as per the manuals.
+
+      6. Start chef
