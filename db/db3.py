@@ -11,7 +11,7 @@ try:
 except OSError as err:
 	print(err)
 	exit()
-'''
+
 netca = raw_input("Did your run db1.py (y/n) ?\n")
 if netca=='y':
 	subprocess.call('./netca -silent -responseFile '+client_path+'/response/netca.rsp',shell=True)
@@ -23,7 +23,7 @@ try:
 except OSError as err:
 	print(err)
 	exit()
-'''
+
 try:
 	subprocess.call('./dbca -silent -deleteDatabase -sourceDB '+cdb+' -sysDBAUserName sys -sysDBAPassword '+admin_pass,shell=True)
 	subprocess.call('./dbca -silent -createDatabase -templateName General_Purpose.dbc -gdbName '+cdb+' -sid '+cdb+' -createAsContainerDatabase false -sysPassword '+admin_pass+' -systemPassword '+admin_pass+' -emConfiguration NONE -storageType FS -datafileDestination '+oracle_home+'/oradata -characterSet AL32UTF8 -nationalCharacterSet UTF8 -memoryPercentage 20 -redoLogFileSize 100',shell=True)
@@ -38,7 +38,7 @@ try:
 except OSError as e:
 	print(e)
 	exit()
-'''
+
 line = tnsnames.readline()
 while True:
 	line=tnsnames.readline()
@@ -126,5 +126,5 @@ session = subprocess.Popen([oracle_home+'/bin/sqlplus', '-S', conn], stdin=PIPE,
 session.stdin.write('alter profile default limit PASSWORD_VERIFY_FUNCTION null;')
 (stdout,stderr)=session.communicate()
 print stdout
-'''
+
 
